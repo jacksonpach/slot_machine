@@ -8,10 +8,10 @@ ROWS = 3
 COLS = 3
 
 symbol_count = {
-    "A": 2,
-    "B": 4,
-    "C": 6,
-    "D": 8,
+    "♣": 2,
+    "♦": 4,
+    "♥": 6,
+    "♠": 8,
 }
 
 
@@ -33,6 +33,15 @@ def get_slot_machine_spin(rows, cols, symbol):
         columns.append(column)
 
     return columns
+
+
+def print_slot_machine(columns):
+    for row in range(len(columns[0])):
+        for i, col in enumerate(columns):
+            if i != len(columns) - 1:
+                print(col[row], "|")
+            else:
+                print(col[row])
 
 
 def deposit():
