@@ -14,6 +14,28 @@ symbol_count = {
     "♠": 8,
 }
 
+symbol_value = {
+    "♣": 5,
+    "♦": 4,
+    "♥": 3,
+    "♠": 2,
+}
+
+
+def check_win(columns, lines, bet, values):
+    win = 0
+    win_lines = []
+    for line in range(lines):
+        symbol = columns[0][line]
+        for col in columns:
+            symbol_to_check = col[line]
+            if symbol != symbol_to_check:
+                break
+            else:
+                win += values[symbol] * bet
+                win_lines.append(line + 1)
+    return win, win_lines
+
 
 def get_slot_machine_spin(rows, cols, symbol):
     all_symbols = []
@@ -87,8 +109,7 @@ def get_bet():
     return bet
 
 
-def main():
-    balance = deposit()
+def spin(balance):
     lines = get_number_of_lines()
 
     while True:
@@ -104,6 +125,24 @@ def main():
 
     slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
     print_slot_machine(slots)
+    win, win_lines = check_win(slots, lines, bet, symbol_value)
+    print(f"You won ${win}")
+    print(f"Winning lines: ", *win_lines)
+    return win_lines - total_bet
+
+
+def main():
+    balance = deposit()
+    while True:
+        print(f"Your balance is ${balance}")
+        answer = input("Would you like to spin? (y/n) ")
+        if answer == "n":
+            print(f"Your final balance is ${balance}")
+            break
+
+        balance += spin(balance)
+
+    print(f"You left with ${balance}")
 
 
 main()
